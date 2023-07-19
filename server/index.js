@@ -22,7 +22,7 @@ dotenv.config();
 // Connecting to database
 database.connect();
  
-// Middlewares
+// Middlewares+
 app.use(express.json());
 app.use(cookieParser());
 app.use(
