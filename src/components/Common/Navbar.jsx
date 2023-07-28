@@ -3,7 +3,7 @@ import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai"
 import { BsChevronDown } from "react-icons/bs"
 import { useSelector } from "react-redux"
 import { Link, matchPath, useLocation } from "react-router-dom"
-
+import MobileNavbar from "./MobileNavbar"
 import logo from "../../assets/Logo/Logo-Full-Light.png"
 import { NavbarLinks } from "../../data/navbar-links"
 import { apiConnector } from "../../services/apiConnector"
@@ -34,6 +34,7 @@ function Navbar() {
   const { token } = useSelector((state) => state.auth)
   const { user } = useSelector((state) => state.profile)
   const { totalItems } = useSelector((state) => state.cart)
+  const [show,setShow]=useState(false);
   const location = useLocation()
 
   const [subLinks, setSubLinks] = useState([])
@@ -60,11 +61,11 @@ function Navbar() {
 
   return (
     <div
-      className={`flex h-14 items-center justify-center border-b-[1px] border-b-richblack-700 ${
+      className={`flex h-14 relative items-center justify-center border-b-[1px] border-b-richblack-700 ${
         location.pathname !== "/" ? "bg-richblack-800" : ""
       } transition-all duration-200`}
     >
-      <div className="flex w-11/12 max-w-maxContent items-center justify-between">
+      <div className="hidden md:flex w-11/12 max-w-maxContent items-center justify-between">
         {/* Logo */}
         <Link to="/">
           <img src={logo} alt="Logo" width={160} height={32} loading="lazy" />
@@ -159,10 +160,17 @@ function Navbar() {
           )}
           {token !== null && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
-          <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
-        </button>
+      
       </div>
+	  <div className=" flex flex-row justify-between items-center  mr-4 w-full  md:hidden">
+		  <div>
+		  <Link to="/">
+          <img src={logo} alt="Logo" width={160} height={32} loading="lazy" />
+        </Link>
+		  </div>
+
+		  <MobileNavbar loading={loading} subLinks={subLinks} NavbarLinks={NavbarLinks} user={user} token={token} totalItems={totalItems}/>
+        </div>
     </div>
   )
 }
